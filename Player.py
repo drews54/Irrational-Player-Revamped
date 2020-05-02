@@ -1,19 +1,34 @@
+#from platform import system
+#if system() == 'Windows':
+#    import winsound
+#else:
+#    print('This software is currently only compatible with Windows OS')
+#    exit()
 from decimal import getcontext, Decimal
 from random import randint
-import musicalbeeps
+from miditime.miditime import MIDITime
 
 getcontext().prec = 60
 
-number = Decimal(input('Enter a number in range 0-99: '))
-duration = float(input('Enter duration of each note: '))
+number = Decimal(input('Enter a positive number: '))
 root = number.sqrt()
 playstring = str(root).replace('.', '', 1)
 
-player = musicalbeeps.Player(volume = 0.3, mute_output = True)
-noteTuple = ('G4#', 'A5', 'B5', 'C5', 'D5', 'E5', 'F5', 'G5#', 'A6', 'B6')
+bpm = int(input('Enter rhythm in BPM: '))
+midiout = MIDITime(bpm, 'irrational_music.mid')
+notes = (68, 69, 71, 72, 74, 76, 77, 80, 81, 83)
 
-for digit in playstring:
-    print(digit, end = '')
-    player.play_note(noteTuple[int(digit)], duration)
-
-print('\nThanks for playing!')
+velocity = int(input('Enter note velocity (loudness) 0-127: '))
+midinotes = []
+for time in range(len(playstring)):
+    midinotes.append([
+        time,
+        notes[int(playstring[time])],
+        velocity,
+        1
+    ])
+midiout.add_track(midinotes)
+midiout.save_midi()
+#winsound.PlaySound('irrational_music.mid', winsound.SND_FILENAME)
+#TODO: Implement playback of the created .mid file.
+print('Find the resulting "irrational_music.mid" file in the program folder')
