@@ -7,9 +7,10 @@ from os import system
 getcontext().prec = 60
 midifile = Path.home().joinpath('Desktop', 'irrational_music.mid')
 
-number = Decimal(input('Enter a positive number: '))
-bpm = int(input('Enter rhythm in BPM: '))
-velocity = int(input('Enter note velocity (loudness) 0-127: '))
+number = abs(Decimal(input('Enter a positive number: ')))
+bpm = abs(int(input('Enter rhythm in BPM: ')))
+velocity = abs(int(input('Enter note velocity (loudness) 0-127: ')))
+if velocity > 127: velocity = 127
 
 playstring = str(number.sqrt()).replace('.', '', 1)
 midiout = MIDITime(bpm, midifile)
