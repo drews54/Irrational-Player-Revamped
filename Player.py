@@ -23,6 +23,8 @@ for time in range(len(playstring)):
         velocity,
         1
     ])
+midinotes[len(playstring) - 1][2] = velocity//2
+midinotes[len(playstring) - 1][3] = 4
 
 midiout.add_track(midinotes)
 midiout.save_midi()
