@@ -11,14 +11,13 @@ from miditime.miditime import MIDITime
 getcontext().prec = 60
 
 number = Decimal(input('Enter a positive number: '))
-root = number.sqrt()
-playstring = str(root).replace('.', '', 1)
-
 bpm = int(input('Enter rhythm in BPM: '))
+velocity = int(input('Enter note velocity (loudness) 0-127: '))
+
+playstring = str(number.sqrt()).replace('.', '', 1)
 midiout = MIDITime(bpm, 'irrational_music.mid')
 notes = (68, 69, 71, 72, 74, 76, 77, 80, 81, 83)
 
-velocity = int(input('Enter note velocity (loudness) 0-127: '))
 midinotes = []
 for time in range(len(playstring)):
     midinotes.append([
@@ -27,6 +26,7 @@ for time in range(len(playstring)):
         velocity,
         1
     ])
+
 midiout.add_track(midinotes)
 midiout.save_midi()
 #winsound.PlaySound('irrational_music.mid', winsound.SND_FILENAME)
