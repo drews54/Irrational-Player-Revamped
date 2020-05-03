@@ -5,7 +5,7 @@
 # on ubuntu
 # sudo apt-get install python-pygame
 
-import pygame
+import pygame.mixer
 
 def play_music(music_file):
     """
@@ -23,6 +23,7 @@ def play_music(music_file):
     while pygame.mixer.music.get_busy():
         # check if playback has finished
         clock.tick(30)
+
 # pick a midi music file you have ...
 # (if not in working folder use full path)
 def player_init(filepath):
