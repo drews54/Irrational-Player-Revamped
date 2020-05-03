@@ -1,19 +1,36 @@
 from decimal import getcontext, Decimal
 from random import randint
-import musicalbeeps
+from miditime.miditime import MIDITime
+from pathlib import Path
+from os import system
 
 getcontext().prec = 60
+midifile = Path.home().joinpath('Desktop', 'irrational_music.mid')
 
-number = Decimal(input('Enter a number in range 0-99: '))
-duration = float(input('Enter duration of each note: '))
-root = number.sqrt()
-playstring = str(root).replace('.', '', 1)
+number = abs(Decimal(input('Enter a positive number: ')))
+bpm = abs(int(input('Enter rhythm in BPM: ')))
+velocity = abs(int(input('Enter note velocity (loudness) 0-127: ')))
+if velocity > 127: velocity = 127
 
-player = musicalbeeps.Player(volume = 0.3, mute_output = True)
-noteTuple = ('G4#', 'A5', 'B5', 'C5', 'D5', 'E5', 'F5', 'G5#', 'A6', 'B6')
+playstring = str(number.sqrt()).replace('.', '', 1)
+midiout = MIDITime(bpm, midifile)
+notes = (68, 69, 71, 72, 74, 76, 77, 80, 81, 83)
 
-for digit in playstring:
-    print(digit, end = '')
-    player.play_note(noteTuple[int(digit)], duration)
+midinotes = []
+for time in range(len(playstring)):
+    midinotes.append([
+        time,
+        notes[int(playstring[time])],
+        velocity,
+        1
+    ])
+midinotes[len(playstring) - 1][2] = velocity//2
+midinotes[len(playstring) - 1][3] = 4
 
-print('\nThanks for playing!')
+midiout.add_track(midinotes)
+midiout.save_midi()
+print('You can find the resulting "irrational_music.mid" file at your desktop')
+
+system(str(midifile))
+
+print('Thank you for listening!')
