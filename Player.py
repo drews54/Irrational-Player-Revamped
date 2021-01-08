@@ -1,5 +1,4 @@
 from decimal import getcontext, Decimal
-from random import randint
 from miditime.miditime import MIDITime
 from pathlib import Path
 from os import system
