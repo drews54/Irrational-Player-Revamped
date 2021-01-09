@@ -6,8 +6,8 @@ from os import system
 getcontext().prec = 60
 midifile = Path.home().joinpath('Desktop', 'irrational_music.mid')
 
-number = abs(Decimal(input('Enter a positive number: ')))
-bpm = abs(int(input('Enter rhythm in BPM: ')))
+number = abs(Decimal(input('Enter a positive number that doesn\`t have an integer square root: ')))
+bpm = abs(int(input('Enter rhythm (speed) in BPM (beats per minute) 0-600: ')))
 velocity = abs(int(input('Enter note velocity (loudness) 0-127: ')))
 if velocity > 127: velocity = 127
 
