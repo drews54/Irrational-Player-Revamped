@@ -1,3 +1,4 @@
+"""Accepts a number, bpm and velocity. Produces 'irrational_music.mid' in Desktop or homedir."""
 from decimal import getcontext, Decimal
 from pathlib import Path
 from os import system
