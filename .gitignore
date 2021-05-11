@@ -349,5 +349,8 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
-#Visual Studio Code config
+# Visual Studio Code config
 .vscode/
+
+# Visual Studio Code devcontainer
+.devcontainer/
