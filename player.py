@@ -3,7 +3,7 @@
 from decimal import getcontext, Decimal
 from pathlib import Path
 from os import system
-from miditime.miditime import MIDITime
+from miditime.MIDITime import MIDITime
 
 getcontext().prec = 60
 FILENAME = "irrational_music.mid"
