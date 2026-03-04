@@ -1,6 +1,6 @@
 """Accepts a number, bpm and velocity. Produces 'irrational_music.mid' in Desktop or homedir."""
 
-from decimal import Decimal, getcontext
+from decimal import Decimal, InvalidOperation, getcontext
 from pathlib import Path
 from sys import platform
 
@@ -19,13 +19,29 @@ if MIDIPATH.joinpath("Desktop").exists():
 else:
     MIDIPATH = MIDIPATH.joinpath(FILENAME)
 
-number = abs(
-    Decimal(input("Enter a positive number that doesn't have an integer square root: "))
-)
-bpm = min(
-    abs(int(input("Enter rhythm (speed) in BPM (beats per minute) 0-600: "))), 600
-)
-velocity = min(abs(int(input("Enter note velocity (loudness) 0-127: "))), 127)
+try:
+    number = abs(
+        Decimal(
+            input("Enter a positive number that doesn't have an integer square root: ")
+        )
+    )
+except InvalidOperation:
+    print("Invalid input. Using 7 as default.")
+    number = Decimal(7)
+
+try:
+    bpm = min(
+        abs(int(input("Enter rhythm (speed) in BPM (beats per minute) 0-600: "))), 600
+    )
+except ValueError:
+    print("Invalid input. Using 300 as default.")
+    bpm = 300
+
+try:
+    velocity = min(abs(int(input("Enter note velocity (loudness) 0-127: "))), 127)
+except ValueError:
+    print("Invalid input. Using 63 as default.")
+    velocity = 63
 
 PLAYSTRING = str(number.sqrt()).replace(".", "", 1)
 midiout = MIDITime(bpm, MIDIPATH)
