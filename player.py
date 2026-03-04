@@ -1,8 +1,14 @@
 """Accepts a number, bpm and velocity. Produces 'irrational_music.mid' in Desktop or homedir."""
 
-from decimal import getcontext, Decimal
+from decimal import Decimal, getcontext
 from pathlib import Path
-from os import system
+from sys import platform
+
+if platform == "win32":
+    from os import startfile
+else:
+    from subprocess import Popen
+
 from miditime.MIDITime import MIDITime
 
 getcontext().prec = 60
@@ -35,6 +41,14 @@ midiout.add_track(midinotes)
 midiout.save_midi()
 
 if input("Do you want to play the file? [y/N]: ").startswith("y"):
-    system(str(MIDIPATH))
+    if platform == "win32":
+        startfile(MIDIPATH)
+    elif platform == "darwin":
+        Popen(["open", MIDIPATH])
+    else:
+        try:
+            Popen(["xdg-open", MIDIPATH])
+        except OSError:
+            print(f"Cannot open file {FILENAME} automatically on this platform.")
 
-print(f"You can find the resulting file in {MIDIPATH}\nThank you for listening!")
+print(f"You can find the resulting file as {MIDIPATH}\nThank you for listening!")
